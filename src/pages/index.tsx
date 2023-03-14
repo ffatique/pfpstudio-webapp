@@ -218,17 +218,13 @@ export default function Home(){
                     }
                   </>
                   :
-                  <input type="text" placeholder="Name your NFT" value={nameNFT} onChange={ (e) => setNameNFT(e.target.value)}/>
-                }
-                { nameNFT === '' ?
-                  <></>
-                  :
                   <>
-                    <button className="tip1" onClick={ saveName }><FaCaretSquareRight color="black" size={40}/></button>
+                  <input type="text" placeholder="Name your NFT" value={nameNFT} onChange={ (e) => setNameNFT(e.target.value)}/>
+                  <button className="tip1" onClick={ saveName }><FaCaretSquareRight color="black" size={40}/></button>
                     <Tooltip anchorSelect=".tip1"  place='right' className={styles.tooltip}>
                       Next Step
                     </Tooltip>
-                  </>
+                  </>    
                 }
               </div>
             </>
