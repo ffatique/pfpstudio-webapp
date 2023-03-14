@@ -1,15 +1,12 @@
 import Head from 'next/head'
 import styles from '../styles/home.module.scss'
-import { useEffect,  useState } from 'react'
-import { useAddress, useNetwork, useStorage, useNetworkMismatch, ChainId, useContract, useContractWrite, useContractRead, useSDK } from "@thirdweb-dev/react"
+import { useState } from 'react'
+import { useAddress, useNetwork, useStorage, useNetworkMismatch, ChainId, useContract, useContractRead, useSDK, ConnectWallet } from "@thirdweb-dev/react"
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 import Image from 'next/image'
 import logo from '../../public/images/logo.png'
-import { ConnectWallet } from "@thirdweb-dev/react"
 import { FaTwitterSquare, FaGithubSquare, FaCaretSquareRight, FaCheckSquare } from 'react-icons/fa'
-import { Tooltip } from 'react-tooltip'
-import 'react-tooltip/dist/react-tooltip.css'
 import myABI from '../abi/myABI.json'
 
 export default function Home(){
@@ -26,7 +23,6 @@ export default function Home(){
   const [nameSaved, setNameSaved] = useState(false)
   const [minted, setMinted] = useState(false)
   const { contract } = useContract("0xaf967BdCBD7d70c49628e9071b2f456B86ff4c85")
-  const { mutateAsync: mintTo, isLoading } = useContractWrite(contract, "mintTo")
   const totalSupply = useContractRead(contract, "totalSupply")
   const [box, setBox] = useState(false)
 
@@ -112,12 +108,6 @@ export default function Home(){
     setBox(true)
   }
     
-
-  useEffect(() =>{
-
-
-  }, [])
-
   return (
     <div className={styles.container}>
       <Head>
@@ -155,7 +145,7 @@ export default function Home(){
             :
             <>
               <div className={styles.avatar}>
-                {nameSaved ?
+                { nameSaved ?
                   <p>NFT: #{`${totalSupply.data?.toString()} - ${nameNFTFinal}`}</p>
                   :
                   <></>
@@ -218,13 +208,14 @@ export default function Home(){
                     }
                   </>
                   :
+                  <input type="text" placeholder="Name your NFT" value={(nameNFT)} onChange={(e) => setNameNFT(e.target.value)}/>
+                }
+                { nameNFT == '' ?
+                  <></>
+                  :
                   <>
-                  <input type="text" placeholder="Name your NFT" value={nameNFT} onChange={ (e) => setNameNFT(e.target.value)}/>
-                  <button className="tip1" onClick={ saveName }><FaCaretSquareRight color="black" size={40}/></button>
-                    <Tooltip anchorSelect=".tip1"  place='right' className={styles.tooltip}>
-                      Next Step
-                    </Tooltip>
-                  </>    
+                    <button onClick={ saveName }><FaCaretSquareRight color="black" size={40}/></button>
+                  </>   
                 }
               </div>
             </>
